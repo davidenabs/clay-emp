@@ -124,6 +124,7 @@ const StaffProfile = () => {
                   </div>
                 </div>
                 <div className="text-center my-10">
+                  {/* Verify BVN */}
                   <Button onClick={openModal}>Request OTP</Button>
                 </div>
               </div>
@@ -137,3 +138,12 @@ const StaffProfile = () => {
 };
 
 export default StaffProfile;
+
+// steps:
+// verify bvn 
+// if successful
+//   show input for phone number
+//   button will change to 'Request OTP'
+//   if successful
+//     show modal for user to enter otp
+//     verify otp

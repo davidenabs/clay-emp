@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Divider from "../../../components/divider";
 import { images } from "../../../assets";
@@ -13,18 +13,39 @@ import TableButton from "../../../components/table/table-button";
 import NextPaymentCard from "./components/cards/nextPaymentCard";
 import StaffTransactionHistory from "./components/cards/staffTransactionHistory";
 import StaffLoanUsage from "./components/cards/staffLoanUsage";
+import createApiManager from "../../../managers/apiManager";
 
 const LoanManagement = () => {
   const [isActive, setIsActive] = useState(false);
+  const [loan, setActiveLoan] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const apiManager = createApiManager();
 
   const handleToggle = () => {
     setIsActive(!isActive);
   };
 
+  useEffect(() => {
+    const getActiveLoan = async () => {
+      setIsLoading(true);
+      try {
+        const fetchedStaff = await apiManager.getActiveLoan();
+        const data = fetchedStaff.data;
+        setActiveLoan(data);
+      } catch (error) {
+        console.error("Error fetching staffs:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getActiveLoan();
+  }, []);
+
   return (
     <>
       <div className="z10 m-10 pb-10 space-y-10 max-md:mr-2.5 max-md:max-w-full">
-        <NextPaymentCard />
+        <NextPaymentCard loan={loan} loading={isLoading} />
         <div>
           <div className="lg:grid lg:grid-cols-3 gap-5">
             <StaffTransactionHistory />
@@ -46,7 +67,7 @@ const LoanManagement = () => {
                     Naira
                   </div>
                   <div className="self-start text-4xl font-bold text-lightBrown">
-                    9784.79
+                    {loan['amountReceived'] - loan['totalLoanAmount']}
                   </div>
                 </div>
                 <img

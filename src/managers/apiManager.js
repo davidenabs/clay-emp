@@ -41,6 +41,10 @@ const createApiManager = () => {
       const url = ENDPOINTS.STAFFS(page, itemsPerPage);
       return get(url);
     },
+    getActiveLoan: () => {
+      const url = ENDPOINTS.ACTIVE_LOAN;
+      return get(url);
+    },
   };
 };
 // STAFFS

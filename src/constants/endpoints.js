@@ -36,6 +36,7 @@ const ENDPOINTS = {
     });
     return `${BASE_URL}/staffs?${queryParams}`;
   },
+  ACTIVE_LOAN: `${BASE_URL}/loans/active`,
   UPDATE_D: (userId) => `/xxse/${userId}/d`,
   // Add more endpoints here...
 };
